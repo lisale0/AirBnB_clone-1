@@ -106,10 +106,27 @@ class HBNBCommand(cmd.Cmd):
         """
         arg = arg.split()
         error = self.__class_err(arg)
+        temp_dict = {}
+        for p in range(1, len(arg)):
+            temp = arg[p].split("=")
+            key = temp[0]
+            value = temp[1].strip('"').strip("'").replace("_", " ").replace("\\", "")
+            try:
+                value = int(value)
+            except:
+                try:
+                    value = float(value)
+                except:
+                    pass
+            temp_dict[key] = value
+
         if not error:
             for k, v in CNC.items():
                 if k == arg[0]:
-                    my_obj = v()
+                    if (temp_dict):
+                        my_obj = v(**temp_dict)
+                    else:
+                        my_obj = v()
                     my_obj.save()
                     print(my_obj.id)
 
@@ -176,10 +193,10 @@ class HBNBCommand(cmd.Cmd):
             error += self.__id_err(arg)
         if not error:
             fs_o = FS.all()
-            for k in fs_o.keys():
-                if arg[1] in k and arg[0] in k:
-                    del fs_o[k]
-                    FS.save()
+        for k in fs_o.keys():
+            if arg[1] in k and arg[0] in k:
+                del fs_o[k]
+                FS.save()
 
     def __rreplace(self, s, l):
         """replaces characters from input list with input string"""
