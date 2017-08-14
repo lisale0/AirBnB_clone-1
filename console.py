@@ -105,13 +105,23 @@ class HBNBCommand(cmd.Cmd):
                  City.create()
         """
         arg = arg.split()
+        temp_dict = {}
         error = self.__class_err(arg)
+        for p in range(1, len(arg)):
+            temp = arg[p].split("=")
+            key = temp[0]
+            value = temp[1].replace("'", "").replace('"', "")
+            temp_dict[key] = value
+
         if not error:
             for k, v in CNC.items():
                 if k == arg[0]:
-                    my_obj = v()
-                    my_obj.save()
-                    print(my_obj.id)
+                    if temp_dict:
+                        my_obj = v(**temp_dict)
+                    else:
+                        my_obj = v()
+            my_obj.save()
+            print(my_obj)
 
     def do_show(self, arg):
         """show: show [ARG] [ARG1]

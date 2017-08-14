@@ -2,7 +2,7 @@
 """
 BaseModel Class of Models Module
 """
-
+import os
 import json
 import models
 from uuid import uuid4, UUID
@@ -11,18 +11,33 @@ from datetime import datetime
 now = datetime.now
 strptime = datetime.strptime
 
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
+from sqlalchemy.ext.declarative import declarative_base
+
+if (os.getenv('HBNB_TYPE_STORAGE') == 'db' and os.getenv('HBNB_ENV') == 'dev'):
+    Base =  declarative_base()
+else:
+    Base = object
 
 class BaseModel:
     """attributes and functions for BaseModel class"""
 
+    if (os.getenv('HBNB_TYPE_STORAGE') == 'db'):
+        id = Column(Integer, nullable=False, primary_key=True)
+        created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+        updated_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+
     def __init__(self, *args, **kwargs):
         """instantiation of new BaseModel Class"""
         if kwargs:
-            self.__set_attributes(kwargs)
+            for k, v in kwargs.items():
+                      self.__dict__[k] = v
         else:
             self.id = str(uuid4())
             self.created_at = now()
-            models.storage.new(self)
+
+    def delete(self):
+        models.storage.delete(self)
 
     def __set_attributes(self, d):
         """converts kwargs values to python class attributes"""
@@ -36,8 +51,8 @@ class BaseModel:
             if not isinstance(d['updated_at'], datetime):
                 d['updated_at'] = strptime(d['updated_at'],
                                            "%Y-%m-%d %H:%M:%S.%f")
-        if '__class__' in d:
-            d.pop('__class__')
+            if '__class__' in d:
+                d.pop('__class__')
         self.__dict__ = d
         models.storage.new(self)
 
@@ -53,10 +68,12 @@ class BaseModel:
         """updates instance with name and value"""
         setattr(self, name, value)
         self.save()
-
     def save(self):
         """updates attribute updated_at to current time"""
         self.updated_at = now()
+        """
+        models.storage.new(self)
+        """
         models.storage.save()
 
     def to_json(self):
@@ -67,7 +84,7 @@ class BaseModel:
                 bm_dict[k] = v
             else:
                 bm_dict[k] = str(v)
-        bm_dict["__class__"] = type(self).__name__
+                bm_dict["__class__"] = type(self).__name__
         return(bm_dict)
 
     def __str__(self):
