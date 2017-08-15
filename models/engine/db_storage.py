@@ -5,7 +5,7 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-class DBStorage():
+class DBStorage:
     __engine = None
     __session = None
 
@@ -44,8 +44,8 @@ class DBStorage():
         print("delete")
 
     def reload(self):
+        Base.metadata.create_all(self.__engine)
         Session = sessionmaker(self.__engine)
         self.__session = Session()
-        Base.metadata.create_all(self.__engine)
-            
+
         
