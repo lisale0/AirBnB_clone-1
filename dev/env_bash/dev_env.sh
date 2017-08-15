@@ -1,4 +1,4 @@
-!/usr/bin/env bash
+#!/usr/bin/env bash
 export HBNB_TYPE_STORAGE="db"
 export HBNB_ENV="dev"
 export HBNB_MYSQL_USER="hbnb_dev"
