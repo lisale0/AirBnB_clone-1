@@ -2,14 +2,19 @@
 """
 State Class from Models Module
 """
+import os
+from models.base_model import BaseModel, Base
+from sqlalchemy import Column, String
+from sqlalchemy.orm import relationship
 
-from models.base_model import BaseModel
-
-
-class State(BaseModel):
+class State(BaseModel, Base):
     """State class handles all application states"""
-
-    name = ''
+    if (os.getenv('HBNB_TYPE_STORAGE') == 'db'):
+        __tablename__ = 'states'
+        name = Column(String(128), nullable=False)
+        cities = relationship('City', backref="state")
+    else:
+        name = ''
 
     def __init__(self, *args, **kwargs):
         """instantiates a new state"""
