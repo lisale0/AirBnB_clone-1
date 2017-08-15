@@ -8,11 +8,12 @@ from models.review import Review
 from models.state import State
 from models.user import User
 
-if (os.getenv('HBNB_TYPE_STORAGE') == 'db'):
+if (os.getenv('HBNB_TYPE_STORAGE') == "db"):
     storage = db_storage.DBStorage()
 else:
     storage = file_storage.FileStorage()
 
 storage.reload()
+
 """CNC - dictionary = { Class Name (string) : Class Type }"""
 CNC = file_storage.FileStorage.CNC

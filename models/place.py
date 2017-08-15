@@ -10,6 +10,7 @@ from sqlalchemy.orm import relationship
 
 class PlaceAmenty(Base):
     __tablename__ = 'place_amenity'
+    metadata = Base.metadata
     place_id = Column(String(60), ForeignKey('places.id'), primary_key=True, nullable=False)
     amenity_id = Column(String(60), ForeignKey("amenities.id"), primary_key=True, nullable=False)
 

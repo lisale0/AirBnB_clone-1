@@ -45,7 +45,7 @@ class DBStorage:
 
     def reload(self):
         Base.metadata.create_all(self.__engine)
+ 
         Session = sessionmaker(self.__engine)
         self.__session = Session()
-
         
