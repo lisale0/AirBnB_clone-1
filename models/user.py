@@ -3,8 +3,10 @@
 User Class from Models Module
 """
 
-from models.base_model import BaseModel
-
+import os
+from models.base_model import BaseModel, Base
+from sqlalchemy.orm import relationship
+from sqlalchemy import Column, String
 
 class User(BaseModel):
     """User class handles all application users"""
