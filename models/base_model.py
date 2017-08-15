@@ -14,7 +14,7 @@ from sqlalchemy.ext.declarative import declarative_base
 now = datetime.now
 strptime = datetime.strptime
 
-if (os.getenv('HBNB_TYPE_STORAGE') == 'db'):
+if (os.getenv('HBNB_TYPE_STORAGE') == "db"):
     Base = declarative_base()
 
 class BaseModel:
