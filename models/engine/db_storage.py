@@ -1,31 +1,51 @@
 #!/usr/bin/python3
 
 import os
+from models.base_model import BaseModel, Base
 from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
 class DBStorage():
     __engine = None
     __session = None
 
     def __init__(self):
-        self.__engine('mysql+mysqldb://{}:{}@{}/{}'
-                      .format(os.getenv('HBNB_MYSQL_USER'),
-                              os.getenv('HBNB_MYSQL_PWD'),
-                              os.getenv('HBNB_MYSQL_HOST'),
-                              os.getenv('HBNB_MYSQL_DB')))
-        def all(self, cls=None):
-            print("All")
+        try:
+            self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
+                          .format(os.getenv('HBNB_MYSQL_USER'),
+                                  os.getenv('HBNB_MYSQL_PWD'),
+                                  os.getenv('HBNB_MYSQL_HOST'),
+                                  os.getenv('HBNB_MYSQL_DB')))
+            """
+            print(os.getenv('HBNB_MYSQL_USER'))
+            print(os.getenv('HBNB_MYSQL_PWD'))
+            print(os.getenv('HBNB_MYSQL_HOST'))
+            print(os.getenv('HBNB_MYSQL_DB'))
+            """
+        except:
+            """
+            print(os.getenv('HBNB_MYSQL_USER'))
+            print(os.getenv('HBNB_MYSQL_PWD'))
+            print(os.getenv('HBNB_MYSQL_HOST'))
+            print(os.getenv('HBNB_MYSQL_DB'))
+            """
+            print("Environment Variables not populated")
 
-        def new(self, obj):
-            print("new")
+    def all(self, cls=None):
+        print("All")
 
-        def save(self):
-            print("save")
+    def new(self, obj):
+        print("new")
 
-        def delete(self, obj=None):
-            print("delete")
+    def save(self):
+        print("save")
 
-        def reload(self):
-            print("reload")
+    def delete(self, obj=None):
+        print("delete")
 
+    def reload(self):
+        Session = sessionmaker(self.__engine)
+        self.__session = Session()
+        Base.metadata.create_all(self.__engine)
+            
         
