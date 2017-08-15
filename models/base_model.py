@@ -48,7 +48,9 @@ class BaseModel:
         if '__class__' in d:
             d.pop('__class__')
         self.__dict__ = d
+        """ 
         models.storage.new(self)
+        """
 
     def __is_serializable(self, obj_v):
         """checks if object is serializable"""
@@ -68,6 +70,7 @@ class BaseModel:
         self.updated_at = now()
         models.storage.new(self)
         models.storage.save()
+
     def to_json(self):
         """returns json representation of self"""
         bm_dict = {}
