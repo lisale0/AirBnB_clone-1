@@ -20,7 +20,7 @@ if (os.getenv('HBNB_TYPE_STORAGE') == "db"):
 class BaseModel:
     """attributes and functions for BaseModel class""" 
     if (os.getenv('HBNB_TYPE_STORAGE') == 'db'):
-        id = Column(Integer, nullable=False, primary_key=True)
+        id = Column(String(60), nullable=False, primary_key=True)
         created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
         updated_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 
