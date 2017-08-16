@@ -337,5 +337,4 @@ class HBNBCommand(cmd.Cmd):
         self.default(arg)
 
 if __name__ == '__main__':
-    """MAIN function"""
     HBNBCommand().cmdloop()
