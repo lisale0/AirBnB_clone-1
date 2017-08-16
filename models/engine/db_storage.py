@@ -38,7 +38,19 @@ class DBStorage:
             Base.metadata.drop_all(bind=self.__engine)
 
     def all(self, cls=None):
-        print("all")
+        sess = self.__session
+        if cls is not None:
+            print (cls)
+            for instance in self.__session.query(DBStorage.CNC[cls]).all():
+                print(instance)
+        else:
+            for k, v in DBStorage.CNC.items():
+                if k != "PlaceAmenity" and k != "BaseModel":
+                    print (v)
+                
+                    for instance in self.__session.query(v).all():
+                        print(instance)
+        
 
     def new(self, obj):
         print("New entered")
@@ -49,10 +61,9 @@ class DBStorage:
         self.__session.commit()
 
     def delete(self, obj=None):
-        """
         if (obj):
             self.__session.delete(obj)
-        """
+
     def reload(self):
         Base.metadata.create_all(self.__engine)
         session = sessionmaker(self.__engine)
