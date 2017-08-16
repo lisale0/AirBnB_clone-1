@@ -3,6 +3,7 @@
 Command interpreter for Holberton AirBnB project
 """
 import cmd
+import os
 from models import base_model, user, storage, CNC
 from models.engine import PARAM
 BaseModel = base_model.BaseModel
@@ -157,28 +158,34 @@ class HBNBCommand(cmd.Cmd):
                  City.all()
         """
         arg = arg.split()
-        error = 0
-        if arg:
-            error = self.__class_err(arg)
-        if not error:
-            print('[', end='')
-            fs_o = FS.all()
-            l = 0
+        if (os.getenv('HBNB_TYPE_STORAGE') == "db"):
             if arg:
-                for v in fs_o.values():
-                    if type(v).__name__ == CNC[arg[0]].__name__:
-                        l += 1
-                c = 0
-                for v in fs_o.values():
-                    if type(v).__name__ == CNC[arg[0]].__name__:
-                        c += 1
-                        print(v, end=(', ' if c < l else ''))
+                FS.all(arg[0])
             else:
-                l = len(fs_o)
-                c = 0
-                for v in fs_o.values():
-                    print(v, end=(', ' if c < l else ''))
-            print(']')
+                FS.all()
+        else:
+            error = 0
+            if arg:
+                error = self.__class_err(arg)
+            if not error:
+                print('[', end='')
+                fs_o = FS.all()
+                l = 0
+                if arg:
+                    for v in fs_o.values():
+                        if type(v).__name__ == CNC[arg[0]].__name__:
+                            l += 1
+                    c = 0
+                    for v in fs_o.values():
+                        if type(v).__name__ == CNC[arg[0]].__name__:
+                            c += 1
+                            print(v, end=(', ' if c < l else ''))
+                else:
+                    l = len(fs_o)
+                    c = 0
+                    for v in fs_o.values():
+                        print(v, end=(', ' if c < l else ''))
+                print(']')
 
     def do_destroy(self, arg):
         """destroy: destroy [ARG] [ARG1]
