@@ -8,7 +8,7 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Integer, ForeignKey, Float
 from sqlalchemy.orm import relationship
 
-class PlaceAmenty(Base):
+class PlaceAmenity(Base):
     __tablename__ = 'place_amenity'
     metadata = Base.metadata
     place_id = Column(String(60), ForeignKey('places.id'), primary_key=True, nullable=False)
@@ -30,10 +30,10 @@ class Place(BaseModel, Base):
         price_by_night = Column(Integer, nullable=False, default=0)
         latitude = Column(Float, nullable=True)
         longitude = Column(Float, nullable=True)
+
         amenities = relationship("Amenity", secondary="place_amenity", viewonly=False)
-        """
         reviews = relationship("Review", backref="place")
-        """
+ 
     else:
         city_id = ''
         user_id = ''
