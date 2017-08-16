@@ -8,11 +8,12 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Integer, ForeignKey, Float
 from sqlalchemy.orm import relationship
 
-class PlaceAmenity(Base):
-    __tablename__ = 'place_amenity'
-    metadata = Base.metadata
-    place_id = Column(String(60), ForeignKey('places.id'), primary_key=True, nullable=False)
-    amenity_id = Column(String(60), ForeignKey("amenities.id"), primary_key=True, nullable=False)
+if (os.getenv('HBNB_TYPE_STORAGE') == 'db'):
+    class PlaceAmenity(Base):
+        __tablename__ = 'place_amenity'
+        metadata = Base.metadata
+        place_id = Column(String(60), ForeignKey('places.id'), primary_key=True, nullable=False)
+        amenity_id = Column(String(60), ForeignKey("amenities.id"), primary_key=True, nullable=False)
 
 class Place(BaseModel, Base):
     """Place class handles all application places"""

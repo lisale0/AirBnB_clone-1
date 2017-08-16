@@ -6,7 +6,9 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from models.amenity import Amenity
 from models.base_model import BaseModel, Base
 from models.city import City
-from models.place import Place, PlaceAmenity
+from models.place import Place
+if (os.getenv('HBNB_TYPE_STORAGE') == 'db'):
+    from models.place import PlaceAmenity
 from models.review import Review
 from models.state import State
 from models.user import User
@@ -22,9 +24,10 @@ class DBStorage:
         'Place': Place,
         'Review': Review,
         'State': State,
-        'PlaceAmenity': PlaceAmenity,
         'User': User
     }
+    if (os.getenv('HBNB_TYPE_STORAGE') == 'db'):
+        CNC['PlaceAmenity'] = PlaceAmenity
     def __init__(self):
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
                                       .format(os.getenv('HBNB_MYSQL_USER'),
