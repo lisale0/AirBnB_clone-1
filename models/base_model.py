@@ -67,7 +67,8 @@ class BaseModel:
 
     def save(self):
         """updates attribute updated_at to current time"""
-        self.updated_at = now()
+        if (os.getenv('HBNB_TYPE_STORAGE') != 'db'):
+            self.updated_at = now()
         models.storage.new(self)
         models.storage.save()
 
@@ -79,7 +80,11 @@ class BaseModel:
                 bm_dict[k] = v
             else:
                 bm_dict[k] = str(v)
+
         bm_dict["__class__"] = type(self).__name__
+        if '_sa_instance_state' in bm_dict:
+            bm_dict.pop("_sa_instance_state", None)
+
         return(bm_dict)
 
     def __str__(self):

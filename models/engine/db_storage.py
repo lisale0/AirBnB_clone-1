@@ -23,19 +23,18 @@ class DBStorage:
             print(os.getenv('HBNB_MYSQL_DB'))
             """
         except:
-            """
-            print(os.getenv('HBNB_MYSQL_USER'))
-            print(os.getenv('HBNB_MYSQL_PWD'))
-            print(os.getenv('HBNB_MYSQL_HOST'))
-            print(os.getenv('HBNB_MYSQL_DB'))
-            """
             print("Environment Variables not populated")
+        if (os.getenv('HBNB_ENV') == 'test'):
+            Base.metadata.drop_all(bind=self.__engine)
 
     def all(self, cls=None):
-        print("All")
+        print("all")
 
     def new(self, obj):
         print("new")
+        self.__session.add(obj)
+    
+        print("Printing Obbject {} : name: {}".format(obj, obj.name))
 
     def save(self):
         print("save")
