@@ -4,7 +4,7 @@ Command interpreter for Holberton AirBnB project
 """
 import cmd
 from models import base_model, user, storage, CNC
-
+from models.engine import PARAM
 BaseModel = base_model.BaseModel
 User = user.User
 FS = storage
@@ -118,8 +118,9 @@ class HBNBCommand(cmd.Cmd):
                     value = float(value)
                 except:
                     pass
+            PARAM[key] = value
             temp_dict[key] = value
-
+        PARAM['class'] = arg[0]
         if not error:
             for k, v in CNC.items():
                 if k == arg[0]:

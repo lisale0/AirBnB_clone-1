@@ -16,6 +16,7 @@ strptime = datetime.strptime
 
 if (os.getenv('HBNB_TYPE_STORAGE') == "db"):
     Base = declarative_base()
+PARAM = {}
 
 class BaseModel:
     """attributes and functions for BaseModel class""" 
@@ -47,6 +48,8 @@ class BaseModel:
                                            "%Y-%m-%d %H:%M:%S.%f")
         if '__class__' in d:
             d.pop('__class__')
+        if '_sa_instace_state' in d:
+            d.pop('sa_instance_state')
         self.__dict__ = d
         """ 
         models.storage.new(self)

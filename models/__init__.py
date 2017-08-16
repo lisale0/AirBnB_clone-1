@@ -19,3 +19,4 @@ storage.reload()
 
 """CNC - dictionary = { Class Name (string) : Class Type }"""
 CNC = file_storage.FileStorage.CNC
+PARAM = {}

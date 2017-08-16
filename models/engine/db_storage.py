@@ -2,8 +2,11 @@
 
 import os
 from models.base_model import BaseModel, Base
+from models.state import State
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import scoped_session
+from models.engine import PARAM
 
 class DBStorage:
     __engine = None
@@ -32,9 +35,12 @@ class DBStorage:
 
     def new(self, obj):
         print("new")
+        
+        """
         self.__session.add(obj)
-    
         print("Printing Obbject {} : name: {}".format(obj, obj.name))
+        """
+        print(PARAM)
 
     def save(self):
         print("save")
@@ -44,6 +50,7 @@ class DBStorage:
 
     def reload(self):
         Base.metadata.create_all(self.__engine)
-        Session = sessionmaker(self.__engine)
+        session_factory = sessionmaker(bind=self.__engine)
+        Session = scoped_session(session_factory)
         self.__session = Session()
-        
+
