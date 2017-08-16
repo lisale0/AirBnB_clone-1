@@ -50,7 +50,9 @@ class BaseModel:
                                            "%Y-%m-%d %H:%M:%S.%f")
         if '__class__' in d:
             d.pop('__class__')
-        self.__dict__ = d
+
+        for attr, val in d.items():
+            setattr(self, attr, val)
         """ 
         models.storage.new(self)
         """

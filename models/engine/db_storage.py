@@ -30,20 +30,26 @@ class DBStorage:
         print("all")
 
     def new(self, obj):
+        print("New entered")
+        print(obj)
         self.__session.add(obj)
 
     def save(self):
-        self.__session.commit()
         """
-        a = self.__session
-        a.commit()
+        self.__session.commit()
         """
 
     def delete(self, obj=None):
+        """
         if (obj):
             self.__session.delete(obj)
-        
+        """
+
     def reload(self):
         Base.metadata.create_all(self.__engine)
+        """
         session = sessionmaker(self.__engine)
         self.__session = scoped_session(session)
+        """
+        Session = sessionmaker(self.__engine)
+        self.__session = Session()
