@@ -160,9 +160,11 @@ class HBNBCommand(cmd.Cmd):
         arg = arg.split()
         if (os.getenv('HBNB_TYPE_STORAGE') == "db"):
             if arg:
-                FS.all(arg[0])
+                ret = FS.all(arg[0])
             else:
-                FS.all()
+                ret = FS.all()
+            for k, v in ret.items():
+                print(v)
         else:
             error = 0
             if arg:
@@ -196,15 +198,23 @@ class HBNBCommand(cmd.Cmd):
                  City.destroy(1234-abcd-5678-efgh)
         """
         arg = arg.split()
-        error = self.__class_err(arg)
-        if not error:
-            error += self.__id_err(arg)
-        if not error:
-            fs_o = FS.all()
-        for k in fs_o.keys():
-            if arg[1] in k and arg[0] in k:
-                del fs_o[k]
-                FS.save()
+        if (os.getenv('HBNB_TYPE_STORAGE') == "db"):
+            if arg[1]:
+                fs_o = FS.all()
+                for key in fs_o.keys():
+                    k = key.split(".")[1]
+                    if k == arg[1]:
+                        FS.delete(fs_o[key])
+        else:
+            error = self.__class_err(arg)
+            if not error:
+                error += self.__id_err(arg)
+            if not error:
+                fs_o = FS.all()
+            for k in fs_o.keys():
+                if arg[1] in k and arg[0] in k:
+                    del fs_o[k]
+                    FS.save()
 
     def __rreplace(self, s, l):
         """replaces characters from input list with input string"""

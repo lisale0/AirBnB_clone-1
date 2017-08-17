@@ -10,7 +10,6 @@ from models.state import State
 from models.user import User
 
 if (os.getenv('HBNB_TYPE_STORAGE') == "db"):
-    print("DB STORAGE CREATED")
     storage = db_storage.DBStorage()
     CNC = db_storage.DBStorage.CNC
 else:
