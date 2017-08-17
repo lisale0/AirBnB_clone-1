@@ -13,6 +13,7 @@ from models.review import Review
 from models.state import State
 from models.user import User
 
+
 class DBStorage:
     """ DBStorage is the engine for the MySQL database"""
     __engine = None
@@ -29,6 +30,7 @@ class DBStorage:
     }
     if (os.getenv('HBNB_TYPE_STORAGE') == 'db'):
         CNC['PlaceAmenity'] = PlaceAmenity
+
     def __init__(self):
         """engine and session is initialized"""
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
@@ -36,6 +38,7 @@ class DBStorage:
                                               os.getenv('HBNB_MYSQL_PWD'),
                                               os.getenv('HBNB_MYSQL_HOST'),
                                               os.getenv('HBNB_MYSQL_DB')))
+
         Base.metadata.create_all(self.__engine)
         session = sessionmaker(self.__engine)
         self.__session = session()
@@ -43,12 +46,13 @@ class DBStorage:
             Base.metadata.drop_all(bind=self.__engine)
 
     def all(self, cls=None):
-        """prints all the objects in the specified class, if none, then print all"""
+        """prints all the objects in the specified class none/ print all"""
         all_dict = {}
         if cls is not None:
             try:
                 for instance in self.__session.query(DBStorage.CNC[cls]).all():
-                    k = str(instance.__class__.__name__) + "." + str(instance.id)
+                    k = str(instance.__class__.__name__) + "."
+                    + str(instance.id)
                     all_dict[k] = instance
             except:
                 pass
