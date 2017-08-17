@@ -20,8 +20,9 @@ else:
     Base = object
 PARAM = {}
 
+
 class BaseModel:
-    """attributes and functions for BaseModel class""" 
+    """attributes and functions for BaseModel class"""
     if (os.getenv('HBNB_TYPE_STORAGE') == 'db'):
         id = Column(String(60), nullable=False, primary_key=True)
         created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
@@ -29,7 +30,7 @@ class BaseModel:
 
     def __init__(self, *args, **kwargs):
         """instantiation of new BaseModel Class"""
-        
+
         if kwargs:
             self.__set_attributes(kwargs)
         else:
@@ -53,7 +54,7 @@ class BaseModel:
 
         for attr, val in d.items():
             setattr(self, attr, val)
-        """ 
+        """
         models.storage.new(self)
         """
 
@@ -85,10 +86,8 @@ class BaseModel:
                 bm_dict[k] = v
             else:
                 bm_dict[k] = str(v)
-
         bm_dict["__class__"] = type(self).__name__
         bm_dict.pop("_sa_instance_state", None)
-        
         return(bm_dict)
 
     def __str__(self):
@@ -98,4 +97,3 @@ class BaseModel:
 
     def delete(self):
         models.storage.delete(self)
-

@@ -12,8 +12,11 @@ if (os.getenv('HBNB_TYPE_STORAGE') == 'db'):
     class PlaceAmenity(Base):
         __tablename__ = 'place_amenity'
         metadata = Base.metadata
-        place_id = Column(String(60), ForeignKey('places.id'), primary_key=True, nullable=False)
-        amenity_id = Column(String(60), ForeignKey("amenities.id"), primary_key=True, nullable=False)
+        place_id = Column(String(60), ForeignKey('places.id'),
+                          primary_key=True, nullable=False)
+        amenity_id = Column(String(60), ForeignKey("amenities.id"),
+                            primary_key=True, nullable=False)
+
 
 class Place(BaseModel, Base):
     """Place class handles all application places"""
@@ -32,9 +35,11 @@ class Place(BaseModel, Base):
         latitude = Column(Float, nullable=True)
         longitude = Column(Float, nullable=True)
 
-        amenities = relationship("Amenity", secondary="place_amenity", viewonly=False)
-        reviews = relationship("Review", cascade="all, delete, delete-orphan", backref="place")
- 
+        amenities = relationship("Amenity", secondary="place_amenity",
+                                 viewonly=False)
+        reviews = relationship("Review",
+                               cascade="all, delete, delete-orphan",
+                               backref="place")
     else:
         city_id = ''
         user_id = ''
