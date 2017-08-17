@@ -205,6 +205,7 @@ class HBNBCommand(cmd.Cmd):
                     k = key.split(".")[1]
                     if k == arg[1]:
                         FS.delete(fs_o[key])
+                        FS.save()
         else:
             error = self.__class_err(arg)
             if not error:
