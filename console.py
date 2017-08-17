@@ -200,7 +200,7 @@ class HBNBCommand(cmd.Cmd):
         arg = arg.split()
         if (os.getenv('HBNB_TYPE_STORAGE') == "db"):
             if arg[1]:
-                fs_o = FS.all(arg[0])
+                fs_o = FS.all()
                 for key in fs_o.keys():
                     k = key.split(".")[1]
                     if k == arg[1]:

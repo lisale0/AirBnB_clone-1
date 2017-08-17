@@ -51,8 +51,8 @@ class DBStorage:
         if cls is not None:
             try:
                 for instance in self.__session.query(DBStorage.CNC[cls]).all():
-                    k = str(instance.__class__.__name__) + "."
-                    + str(instance.id)
+                    clss = str(instance.__class__.__name__)
+                    k = clss + str(instance.id)
                     all_dict[k] = instance
             except:
                 pass
