@@ -2,7 +2,7 @@
 """
 full deployment
 """
-
+import os
 import time
 from fabric.api import local, run, hosts, env, put
 
@@ -28,6 +28,9 @@ def do_deploy(archive_path):
     deploy
     """
     if not archive_path:
+        return False
+
+    if not os.path.exists(archive_path):
         return False
 
     filename = archive_path.split("/")[-1]
@@ -64,4 +67,6 @@ def deploy():
     full deploy calling do_pack and do_deploy
     """
     archive_pth = do_pack()
-    do_deploy(archive_pth)
+    deploy_retval = do_deploy(archive_pth)
+    if deploy_retval is False:
+        return False
