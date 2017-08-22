@@ -13,8 +13,7 @@ def do_deploy(archive_path):
     deploy
     """
     if not archive_path:
-        return None
-    print("{}".format(archive_path))
+        return False
 
     filename = archive_path.split("/")[-1]
     """upload the archive to the /tmp/ directory of the web server"""
@@ -24,7 +23,7 @@ def do_deploy(archive_path):
     run("sudo mkdir -p /data/web_static/releases/{}".format(filename))
 
     """uncompress the archive to the folder"""
-    run("tar -xzf /tmp/{} -C /data/web_static/releases/{}".format(filename, filename))
+    run("sudo tar -xzf /tmp/{} -C /data/web_static/releases/{}".format(filename, filename))
 
     """ remove tgz file"""
     run("sudo rm /tmp/{}".format(filename))
