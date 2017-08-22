@@ -2,6 +2,7 @@
 """
 deploy
 """
+import os
 import time
 from fabric.api import local, run, hosts, env, put
 
