@@ -5,8 +5,8 @@ deploy
 import time
 from fabric.api import local, run, hosts, env, put
 
-env.hosts = ['104.236.63.53']
-env.user = "root"
+env.hosts = ['144.217.245.116', '54.91.123.178']
+
 
 def do_deploy(archive_path):
     """
