@@ -5,33 +5,41 @@ from flask import render_template
 
 app = Flask(__name__)
 
+""" Route: / """
 @app.route('/', strict_slashes=False)
 def display_hello_hbnb():
     return 'Hello HBNB!'
 
+""" Route: /hbnb """
 @app.route('/hbnb', strict_slashes=False)
 def display_hbnb():
     return 'HBNB'
 
+""" Route: /c/<string:text> """
 @app.route('/c/<string:text>', strict_slashes=False)
 def display_c(text):
     text = text.replace("_"," ")
     return 'C {}'.format(text)
 
+""" Route: /python/* """
 @app.route('/python', strict_slashes=False)
 @app.route('/python/', strict_slashes=False)
 @app.route('/python/<string:text>', strict_slashes=False)
 def display_python(text="is cool"):
     text = text.replace("_"," ")
     return 'Python {}'.format(text)
+
+""" Route: /number/<int:num> """
 @app.route('/number/<int:num>', strict_slashes=False)
 def display_number(num):
     return '{} is a number'.format(num)
 
+""" Route: /number_template/<int:num> """
 @app.route('/number_template/<int:num>', strict_slashes=False)
 def display_numbertemp(num):
     return render_template('5-number.html', num=num)
 
+""" Route: /number_odd_or_even/<int:num> """
 @app.route('/number_odd_or_even/<int:num>', strict_slashes=False)
 def even_or_odd(num):
     return render_template('6-number_odd_or_even.html', num=num)
