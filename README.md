@@ -93,6 +93,8 @@ github repo
 
 ## Authors
 
+* Halina Veratsennik [@halinav00](https://github.com/halinav00)
+* Lisa Leung [@lisale0](https://github.com/lisale0)
 * MJ Johnson, [@mj31508](https://github.com/mj31508)
 * David John Coleman II, [davidjohncoleman.com](http://www.davidjohncoleman.com/)
 

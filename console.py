@@ -3,8 +3,9 @@
 Command interpreter for Holberton AirBnB project
 """
 import cmd
+import os
 from models import base_model, user, storage, CNC
-
+from models.engine import PARAM
 BaseModel = base_model.BaseModel
 User = user.User
 FS = storage
@@ -110,18 +111,26 @@ class HBNBCommand(cmd.Cmd):
         for p in range(1, len(arg)):
             temp = arg[p].split("=")
             key = temp[0]
-            value = temp[1].replace("'", "").replace('"', "")
+            value = temp[1].strip('"').strip("'").replace("_", " ").replace("\\", "")
+            try:
+                value = int(value)
+            except:
+                try:
+                    value = float(value)
+                except:
+                    pass
+            PARAM[key] = value
             temp_dict[key] = value
-
+        PARAM['class'] = arg[0]
         if not error:
             for k, v in CNC.items():
                 if k == arg[0]:
-                    if temp_dict:
+                    if (temp_dict):
                         my_obj = v(**temp_dict)
                     else:
                         my_obj = v()
-            my_obj.save()
-            print(my_obj)
+                    my_obj.save()
+                    print(my_obj.id)
 
     def do_show(self, arg):
         """show: show [ARG] [ARG1]
@@ -149,28 +158,36 @@ class HBNBCommand(cmd.Cmd):
                  City.all()
         """
         arg = arg.split()
-        error = 0
-        if arg:
-            error = self.__class_err(arg)
-        if not error:
-            print('[', end='')
-            fs_o = FS.all()
-            l = 0
+        if (os.getenv('HBNB_TYPE_STORAGE') == "db"):
             if arg:
-                for v in fs_o.values():
-                    if type(v).__name__ == CNC[arg[0]].__name__:
-                        l += 1
-                c = 0
-                for v in fs_o.values():
-                    if type(v).__name__ == CNC[arg[0]].__name__:
-                        c += 1
-                        print(v, end=(', ' if c < l else ''))
+                ret = FS.all(arg[0])
             else:
-                l = len(fs_o)
-                c = 0
-                for v in fs_o.values():
-                    print(v, end=(', ' if c < l else ''))
-            print(']')
+                ret = FS.all()
+            for k, v in ret.items():
+                print(v)
+        else:
+            error = 0
+            if arg:
+                error = self.__class_err(arg)
+            if not error:
+                print('[', end='')
+                fs_o = FS.all()
+                l = 0
+                if arg:
+                    for v in fs_o.values():
+                        if type(v).__name__ == CNC[arg[0]].__name__:
+                            l += 1
+                    c = 0
+                    for v in fs_o.values():
+                        if type(v).__name__ == CNC[arg[0]].__name__:
+                            c += 1
+                            print(v, end=(', ' if c < l else ''))
+                else:
+                    l = len(fs_o)
+                    c = 0
+                    for v in fs_o.values():
+                        print(v, end=(', ' if c < l else ''))
+                print(']')
 
     def do_destroy(self, arg):
         """destroy: destroy [ARG] [ARG1]
@@ -181,11 +198,20 @@ class HBNBCommand(cmd.Cmd):
                  City.destroy(1234-abcd-5678-efgh)
         """
         arg = arg.split()
-        error = self.__class_err(arg)
-        if not error:
-            error += self.__id_err(arg)
-        if not error:
-            fs_o = FS.all()
+        if (os.getenv('HBNB_TYPE_STORAGE') == "db"):
+            if arg[1]:
+                fs_o = FS.all()
+                for key in fs_o.keys():
+                    k = key.split(".")[1]
+                    if k == arg[1]:
+                        FS.delete(fs_o[key])
+                        FS.save()
+        else:
+            error = self.__class_err(arg)
+            if not error:
+                error += self.__id_err(arg)
+            if not error:
+                fs_o = FS.all()
             for k in fs_o.keys():
                 if arg[1] in k and arg[0] in k:
                     del fs_o[k]
@@ -329,5 +355,4 @@ class HBNBCommand(cmd.Cmd):
         self.default(arg)
 
 if __name__ == '__main__':
-    """MAIN function"""
     HBNBCommand().cmdloop()
