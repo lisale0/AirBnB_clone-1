@@ -62,3 +62,7 @@ class FileStorage:
     def delete(self, obj=None):
         """ deletes obj from self.__objects"""
         print("I delete obj")
+
+    def close(self):
+        self.reload()
+    

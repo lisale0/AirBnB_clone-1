@@ -21,3 +21,6 @@ class State(BaseModel, Base):
     def __init__(self, *args, **kwargs):
         """instantiates a new state"""
         super().__init__(self, *args, **kwargs)
+    if (os.getenv('HBNB_TYPE_STORAGE') != 'db'):
+        def cities(self):
+            return self.cities
