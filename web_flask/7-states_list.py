@@ -7,12 +7,16 @@ from models import storage
 app = Flask(__name__)
 
 """ after each request is done, close storage session"""
+
+
 @app.teardown_appcontext
 def close_session(exception):
     """remove the session to see what happened"""
     storage.close()
 
 """ Route: /states_list """
+
+
 @app.route('/states_list', strict_slashes=False)
 def even_or_odd():
     state_list = storage.all("State")

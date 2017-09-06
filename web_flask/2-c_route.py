@@ -5,19 +5,25 @@ from flask import Flask
 app = Flask(__name__)
 
 """ Route: / """
+
+
 @app.route('/', strict_slashes=False)
 def display_hello_hbnb():
     return 'Hello HBNB!'
 
 """ Route: /hbnb """
+
+
 @app.route('/hbnb', strict_slashes=False)
 def display_hbnb():
     return 'HBNB'
 
 """ Route: /c/<string:text> """
+
+
 @app.route('/c/<string:text>', strict_slashes=False)
 def display_c(text):
-    text = text.replace("_"," ")
+    text = text.replace("_", " ")
     return 'C {}'.format(text)
 
 if __name__ == '__main__':
