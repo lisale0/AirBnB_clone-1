@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 @app.teardown_appcontext
 def close_session(exception):
-    """close storage""
+    """close storage"""
     storage.close()
 
 """ Route: /cities_by_states """
