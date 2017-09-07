@@ -21,16 +21,10 @@ def close_session(exception):
 def state_list():
     state_list = storage.all("State")
     state_arr = state_list.values()
-    return render_template('7-states_list.html', state_list=state_arr)
-"""
-    key = []
-    state_arr = []
-    for state in state_list:
-        key.append(state)
-    for i in key:
-        state_arr.append(state_list[i])
+    sorted_arr = []
+    for state in sorted(state_arr, key=lambda k: k.name):
+        sorted_arr.append(state)
+    return render_template('7-states_list.html', state_list=sorted_arr)
 
-    return render_template('7-states_list.html', state_list=state_arr)
-"""
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
