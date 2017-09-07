@@ -18,15 +18,19 @@ def close_session(exception):
 
 
 @app.route('/states_list', strict_slashes=False)
-def even_or_odd():
+def state_list():
     state_list = storage.all("State")
+    state_arr = state_list.values()
+    return render_template('7-states_list.html', state_list=state_arr)
+"""
     key = []
     state_arr = []
     for state in state_list:
         key.append(state)
     for i in key:
         state_arr.append(state_list[i])
-    return render_template('7-states_list.html', state_list=state_arr)
 
+    return render_template('7-states_list.html', state_list=state_arr)
+"""
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
