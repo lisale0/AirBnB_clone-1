@@ -3,6 +3,11 @@
  * ------ Filters
  */
 
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+}
+
 .container .filters {
 	height: 70px;
 	background-color: #FFFFFF;
