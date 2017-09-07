@@ -50,7 +50,8 @@ def state_id(state_id):
 
         sorted_cities = sorted(sorted_cities, key=lambda k: k['name'])
         return render_template('9-states.html', condition="state_id",
-                           sorted_cities=sorted_cities, state_name=state_name)
+                               sorted_cities=sorted_cities,
+                               state_name=state_name)
     except:
         return render_template('9-states.html', condition="not_found")
 
